@@ -3,7 +3,7 @@
 #include <Nextion.h>
 
 char* pageId = "0";
-unsigned long lt,vt;
+unsigned long lastTime,waitTime;
 
 Nextion Display(Serial2, 9600);
 iarduino_RTC time(RTC_DS1307);
@@ -25,7 +25,7 @@ void loop() {
 if(digitalRead(2)){ 
 displayTime();
 for(int n=1; n<=EEPROM.read(0);n++){
-    if(EEPROM.read(n*7-4)==time.hours&&EEPROM.read(n*7-3)==time.minutes&&millis()-lt>=vt){//формула обращения к ячейке n*7-p+3
+    if(EEPROM.read(n*7-4)==time.hours&&EEPROM.read(n*7-3)==time.minutes&&millis()-lastTime >= wait){//формула обращения к ячейке n*7-p+3
       lt = millis();
       vt = 59800;
       Serial.println("Кек");
