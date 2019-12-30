@@ -10,10 +10,10 @@ void sdInit() {
 
 File file;
 
-void writeLog() {
+void writeLog(String logData, String logUserId, String logMessage) {
   file = SD.open("log.csv", FILE_WRITE);
   if (file) {
-    file.println(String(4) + ";" + String(5) + ";" + String(10));
+    file.println(logData + ";" + logUserId + ";" + logMessage);
     file.close(); 
   }
   file.close();
