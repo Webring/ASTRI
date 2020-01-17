@@ -1,20 +1,18 @@
-#include <SD.h>
-#include <SPI.h>
-
-void sdInit() {
-  if (!SD.begin(4)) {
-    Serial.print("The SD card cannot be found");
-    while (1);
-  }
-}
-
+TMRpcm tmrpcm;
 File file;
 
-void writeLog(String logData, String logUserId, String logMessage) {
+void sdInit() {
+  //tmrpcm.speakerPin = 5;
+  SD.begin(SD_PIN);
+}
+
+
+
+void writeLog(String logDate, String logUserId, String logMessage) {
   file = SD.open("log.csv", FILE_WRITE);
   if (file) {
-    file.println(logData + ";" + logUserId + ";" + logMessage);
-    file.close(); 
+    file.println(logDate + ";" + logUserId + ";" + logMessage);
+    file.close();
   }
   file.close();
 }
@@ -30,14 +28,16 @@ String getName(int id) { //получение имен с sd в файле names
   for (int num = 0; file.available(); num++) {
     line = file.readStringUntil('\n');
     if (id == num) {
-      if (num == 0) {
-        return line.substring(3, line.length() - 1);
-      }
-      else {
-        return line.substring(0, line.length() - 1);
-      }
+      return line.substring(0, line.length() - 1);
       break;
     }
   }
   file.close();
+}
+
+void playSound() {
+  //digitalWrite(11,LOW);
+  tmrpcm.play("1.wav");
+  delay(1000);
+  //digitalWrite(11,LOW);
 }

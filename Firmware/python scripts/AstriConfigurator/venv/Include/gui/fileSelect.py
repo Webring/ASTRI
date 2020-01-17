@@ -3,11 +3,11 @@ from PyQt5.QtWidgets import QApplication, QWidget, QInputDialog, QLineEdit, QFil
 from PyQt5.QtGui import QIcon
 
 
-class App(QWidget):
+class fileSelect(QWidget):
 
     def __init__(self):
         super().__init__()
-        self.title = 'PyQt5 file dialogs - pythonspot.com'
+        self.title = 'Выберите файл'
         self.left = 10
         self.top = 10
         self.width = 640

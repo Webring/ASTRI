@@ -6,7 +6,7 @@ from PyQt5.QtGui import *
 #----------настройки------------
 SD_CARD_NAME = "ASTRIOS"
 UPDATE_TIME = 2000
-TABLE_HEADERS = ["1", "2", "3"]
+TABLE_HEADERS = ["Дата", "Время", "Пользователь", "Статус"]
 #-----------Страницы------------
 from gui.mainPage import Ui_mainWindow
 from gui.namesPage import Ui_namesWindow
@@ -120,12 +120,12 @@ class logWin(QtWidgets.QMainWindow):
         self.tableFillFromCsv(sdCardCheck() + "log.csv", TABLE_HEADERS)
 
     def clearLogFile(self):
-        with open("log.csv", "w") as file:
+        with open(sdCardCheck() + "log.csv", "w") as file:
             file.truncate()
-        self.tableFillFromCsv("log.csv", TABLE_HEADERS)
+        self.tableFillFromCsv(sdCardCheck() + "log.csv", TABLE_HEADERS)
 
     def openLogFile(self):
-        os.popen("log.csv")
+        os.popen(sdCardCheck() + "log.csv")
 
     def tableFillFromCsv(self, csvPath, headers=[]):
         table = []
@@ -141,7 +141,8 @@ class logWin(QtWidgets.QMainWindow):
                 for col in range(len(table[0])):
                     self.ui.table.setItem(row, col, QTableWidgetItem(table[row][col]))
             self.ui.table.resizeColumnsToContents()
-        except IndexError:
+        except Exception as err:
+            print(err)
             self.ui.table.setRowCount(0)
             self.ui.table.setColumnCount(0)
 

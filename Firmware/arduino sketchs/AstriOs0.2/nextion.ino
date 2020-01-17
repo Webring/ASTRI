@@ -163,6 +163,17 @@ void timerDelete() {
     Display.setComponentText("t4", String(EEPROM.read(cellFormula(timerDeleteTimerNumber, 1))) + ":" + String(EEPROM.read(cellFormula(timerDeleteTimerNumber, 2))));
     Display.setComponentText("t2", String(EEPROM.read(cellFormula(timerDeleteTimerNumber, 3))) + ";" + String(EEPROM.read(cellFormula(timerDeleteTimerNumber, 4))));
     Display.setComponentText("t5", String(timerDeleteTimerNumber));
+    Display.setComponentText("t7", String(EEPROM.read(cellFormula(timerDeleteTimerNumber, 5))));
+    if (EEPROM.read(cellFormula(timerDeleteTimerNumber, 6))) {
+      setText("9", "Уведомлять: да");
+    }
+    else {
+      setText("t9", "Уведомлять: нет");
+
+    }
+    Display.setComponentText("t10", String(EEPROM.read(cellFormula(timerDeleteTimerNumber, 7))));
+
+
     while (1) {
       String bcode = Display.listen();
       if (bcode == "65 6 1 1 ffff ffff ffff") {
@@ -173,9 +184,19 @@ void timerDelete() {
         Display.setComponentText("t4", String(EEPROM.read(cellFormula(timerDeleteTimerNumber, 1))) + ":" + String(EEPROM.read(cellFormula(timerDeleteTimerNumber, 2))));
         Display.setComponentText("t2", String(EEPROM.read(cellFormula(timerDeleteTimerNumber, 3))) + ";" + String(EEPROM.read(cellFormula(timerDeleteTimerNumber, 4))));
         Display.setComponentText("t5", String(timerDeleteTimerNumber));
+        Display.setComponentText("t7", String(EEPROM.read(cellFormula(timerDeleteTimerNumber, 5))));
+        if (EEPROM.read(cellFormula(timerDeleteTimerNumber, 6))) {
+          setText("t9", "Уведомлять: да");
+        }
+        else {
+          setText("t9", "Уведомлять: нет");
+
+        }
+        Display.setComponentText("t10", String(EEPROM.read(cellFormula(timerDeleteTimerNumber, 7))));
+
       }
 
-      if (bcode == "65 6 2 1 ffff ffff ffff") {
+      if (bcode == "65 6 f 1 ffff ffff ffff") {
         timerDeleteTimerNumber++;
         if (timerDeleteTimerNumber > timerDeleteTimerNumberMax) {
           timerDeleteTimerNumber = 1;
@@ -183,9 +204,18 @@ void timerDelete() {
         Display.setComponentText("t4", String(EEPROM.read(cellFormula(timerDeleteTimerNumber, 1))) + ":" + String(EEPROM.read(cellFormula(timerDeleteTimerNumber, 2))));
         Display.setComponentText("t2", String(EEPROM.read(cellFormula(timerDeleteTimerNumber, 3))) + ";" + String(EEPROM.read(cellFormula(timerDeleteTimerNumber, 4))));
         Display.setComponentText("t5", String(timerDeleteTimerNumber));
+        Display.setComponentText("t7", String(EEPROM.read(cellFormula(timerDeleteTimerNumber, 5))));
+        if (EEPROM.read(cellFormula(timerDeleteTimerNumber, 6))) {
+          setText("t9", "Уведомлять: да");
+        }
+        else {
+          setText("t9", "Уведомлять: нет");
+
+        }
+        Display.setComponentText("t10", String(EEPROM.read(cellFormula(timerDeleteTimerNumber, 7))));
 
       }
-      if (bcode == "65 6 3 1 ffff ffff ffff") {
+      if (bcode == "65 6 2 1 ffff ffff ffff") {
         if (timerDeleteTimerNumber == timerDeleteTimerNumberMax) {
           Serial.println("easy");
           EEPROM.update(0, EEPROM.read(0) - 1);
@@ -213,8 +243,18 @@ void timerDelete() {
         Display.setComponentText("t4", String(EEPROM.read(cellFormula(timerDeleteTimerNumber, 1))) + ":" + String(EEPROM.read(cellFormula(timerDeleteTimerNumber, 2))));
         Display.setComponentText("t2", String(EEPROM.read(cellFormula(timerDeleteTimerNumber, 3))) + ";" + String(EEPROM.read(cellFormula(timerDeleteTimerNumber, 4))));
         Display.setComponentText("t5", String(timerDeleteTimerNumber));
+        Display.setComponentText("t7", String(EEPROM.read(cellFormula(timerDeleteTimerNumber, 5))));
+        if (EEPROM.read(cellFormula(timerDeleteTimerNumber, 6))) {
+          setText("t9", "Уведомлять: да");
+        }
+        else {
+          setText("t9", "Уведомлять: нет");
+
+        }
+        Display.setComponentText("t10", String(EEPROM.read(cellFormula(timerDeleteTimerNumber, 7))));
+
       }
-      if (bcode == "65 6 9 1 ffff ffff ffff" or timerDeleteTimerNumberMax == 0) {
+      if (bcode == "65 6 8 1 ffff ffff ffff" or timerDeleteTimerNumberMax == 0) {
         break;
       }
       delay(1);
@@ -324,4 +364,10 @@ void displayTime() {
   setText("main.t1", time.gettime("d.m.Y"));
   char* Day;
   setText("t2", daysNames(atoi(time.gettime("w"))));
+  if (!SD.begin(SD_PIN)) {
+    setText("t3", "Вставте Sd Карту");
+  }
+  else {
+    setText("t3", "");
+  }
 }
