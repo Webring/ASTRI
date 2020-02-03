@@ -2,13 +2,11 @@
 
 # Form implementation generated from reading ui file 'namesPage.ui'
 #
-# Created by: PyQt5 UI code generator 5.14.0
+# Created by: PyQt5 UI code generator 5.9
 #
 # WARNING! All changes made in this file will be lost!
 
-
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class Ui_namesWindow(object):
     def setupUi(self, namesWindow):
@@ -200,3 +198,4 @@ if __name__ == "__main__":
     ui.setupUi(namesWindow)
     namesWindow.show()
     sys.exit(app.exec_())
+

@@ -1,10 +1,13 @@
-import sys, os, csv
+import sys, os, shutil, csv
+from distutils.dir_util import copy_tree
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 #----------настройки------------
 SD_CARD_NAME = "ASTRIOS"
+BACKUP_DIRECTORY = "fileSystemBackup/"
+EXAMPLE_DIRECTORY = "fileSystemExample/"
 UPDATE_TIME = 2000
 TABLE_HEADERS = ["Дата", "Время", "Пользователь", "Статус"]
 #-----------Страницы------------
@@ -36,6 +39,8 @@ class mainWin(QtWidgets.QMainWindow):
         #--------------------------------------------
         self.ui.namesButton.clicked.connect(self.showNamesWin)
         self.ui.logButton.clicked.connect(self.showLogWin)
+        self.ui.uploadButton.clicked.connect(self.fileSystemClone)
+        self.ui.backupButton.clicked.connect(self.fileSystemBackupUpload)
         #--------------------------------------------
 
     def tick(self):
@@ -47,7 +52,7 @@ class mainWin(QtWidgets.QMainWindow):
             self.ui.songsButton.setEnabled(False)
             self.ui.checkButton.setEnabled(False)
             self.ui.uploadButton.setEnabled(False)
-
+            self.ui.backupButton.setEnabled(False)
         else:
             self.ui.sdStatus.setText("SD карта подключена")
             self.ui.sdStatus.setStyleSheet('color: #046D05')
@@ -56,6 +61,36 @@ class mainWin(QtWidgets.QMainWindow):
             self.ui.songsButton.setEnabled(True)
             self.ui.checkButton.setEnabled(True)
             self.ui.uploadButton.setEnabled(True)
+            self.ui.backupButton.setEnabled(True)
+
+    def fileSystemClone(self, disk = "D://", example = EXAMPLE_DIRECTORY):
+        disk = sdCardCheck() + "/"
+        example = EXAMPLE_DIRECTORY
+        copy_tree(disk, BACKUP_DIRECTORY)
+        try:
+            with os.scandir(disk) as entries:
+                for entry in entries:
+                    if entry.is_file() or entry.is_symlink():
+                        os.remove(entry.path)
+                    elif entry.is_dir():
+                        shutil.rmtree(entry.path)
+        except:
+            pass
+        copy_tree(example, disk)
+        mbox("На SD карту загруженна файловая система. Старые файлы временно сохраненны.", "Сохраненно")
+
+    def fileSystemBackupUpload(self):
+        try:
+            with os.scandir(sdCardCheck() + "/") as entries:
+                for entry in entries:
+                    if entry.is_file() or entry.is_symlink():
+                        os.remove(entry.path)
+                    elif entry.is_dir():
+                        shutil.rmtree(entry.path)
+        except:
+            pass
+        copy_tree(BACKUP_DIRECTORY, sdCardCheck() + "/")
+        mbox("Файловая система востановленна." , "Сохраненно")
 
     def showNamesWin(self):
         self.win = namesWin()
@@ -88,18 +123,21 @@ class namesWin(QtWidgets.QMainWindow):
         self.ui.name10.setText(names[9])
 
     def writeNames(self):
-        with open(sdCardCheck() + "names.txt", "w", encoding='utf-8') as file:
-            print(self.ui.name1.text(), file=file)
-            print(self.ui.name2.text(), file=file)
-            print(self.ui.name3.text(), file=file)
-            print(self.ui.name4.text(), file=file)
-            print(self.ui.name5.text(), file=file)
-            print(self.ui.name6.text(), file=file)
-            print(self.ui.name7.text(), file=file)
-            print(self.ui.name8.text(), file=file)
-            print(self.ui.name9.text(), file=file)
-            print(self.ui.name10.text(), file=file)
-        mbox("Имена были записанны на SD карту", "Сохраненно")
+        try:
+            with open(sdCardCheck() + "names.txt", "w", encoding='utf-8') as file:
+                print(self.ui.name1.text(), file=file)
+                print(self.ui.name2.text(), file=file)
+                print(self.ui.name3.text(), file=file)
+                print(self.ui.name4.text(), file=file)
+                print(self.ui.name5.text(), file=file)
+                print(self.ui.name6.text(), file=file)
+                print(self.ui.name7.text(), file=file)
+                print(self.ui.name8.text(), file=file)
+                print(self.ui.name9.text(), file=file)
+                print(self.ui.name10.text(), file=file)
+            mbox("Имена были записанны на SD карту", "Сохраненно")
+        except:
+            pass
         self.hide()
 
 class logWin(QtWidgets.QMainWindow):
@@ -117,15 +155,24 @@ class logWin(QtWidgets.QMainWindow):
         self.tableFillFromCsv(sdCardCheck() + "log.csv", TABLE_HEADERS)
 
     def tick(self):
-        self.tableFillFromCsv(sdCardCheck() + "log.csv", TABLE_HEADERS)
+        try:
+            self.tableFillFromCsv(sdCardCheck() + "log.csv", TABLE_HEADERS)
+        except:
+            self.hide()
 
     def clearLogFile(self):
-        with open(sdCardCheck() + "log.csv", "w") as file:
-            file.truncate()
-        self.tableFillFromCsv(sdCardCheck() + "log.csv", TABLE_HEADERS)
+        try:
+            with open(sdCardCheck() + "log.csv", "w") as file:
+                file.truncate()
+            self.tableFillFromCsv(sdCardCheck() + "log.csv", TABLE_HEADERS)
+        except:
+            self.hide()
 
     def openLogFile(self):
-        os.popen(sdCardCheck() + "log.csv")
+        try:
+            os.popen(sdCardCheck() + "log.csv")
+        except:
+            self.hide()
 
     def tableFillFromCsv(self, csvPath, headers=[]):
         table = []
@@ -147,7 +194,7 @@ class logWin(QtWidgets.QMainWindow):
             self.ui.table.setColumnCount(0)
 
 
-def mbox(body, title='Error'):
+def mbox(body, title="Ошибка!"):
     dialog = QMessageBox(QMessageBox.Information, title, body)
     dialog.exec_()
 

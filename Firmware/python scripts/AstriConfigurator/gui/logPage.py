@@ -2,13 +2,11 @@
 
 # Form implementation generated from reading ui file 'logPage.ui'
 #
-# Created by: PyQt5 UI code generator 5.14.0
+# Created by: PyQt5 UI code generator 5.9
 #
 # WARNING! All changes made in this file will be lost!
 
-
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class Ui_logWindow(object):
     def setupUi(self, logWindow):
@@ -57,3 +55,4 @@ if __name__ == "__main__":
     ui.setupUi(logWindow)
     logWindow.show()
     sys.exit(app.exec_())
+

@@ -2,18 +2,16 @@
 
 # Form implementation generated from reading ui file 'mainPage.ui'
 #
-# Created by: PyQt5 UI code generator 5.14.0
+# Created by: PyQt5 UI code generator 5.9
 #
 # WARNING! All changes made in this file will be lost!
 
-
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class Ui_mainWindow(object):
     def setupUi(self, mainWindow):
         mainWindow.setObjectName("mainWindow")
-        mainWindow.resize(696, 300)
+        mainWindow.resize(696, 347)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -70,6 +68,7 @@ class Ui_mainWindow(object):
         self.songsButton.setFont(font)
         self.songsButton.setObjectName("songsButton")
         self.timeSyncButton = QtWidgets.QPushButton(self.centralwidget)
+        self.timeSyncButton.setEnabled(False)
         self.timeSyncButton.setGeometry(QtCore.QRect(430, 30, 261, 41))
         font = QtGui.QFont()
         font.setPointSize(15)
@@ -89,6 +88,13 @@ class Ui_mainWindow(object):
         font.setPointSize(15)
         self.namesButton.setFont(font)
         self.namesButton.setObjectName("namesButton")
+        self.backupButton = QtWidgets.QPushButton(self.centralwidget)
+        self.backupButton.setEnabled(False)
+        self.backupButton.setGeometry(QtCore.QRect(0, 280, 411, 41))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.backupButton.setFont(font)
+        self.backupButton.setObjectName("backupButton")
         mainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(mainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 696, 21))
@@ -115,6 +121,7 @@ class Ui_mainWindow(object):
         self.timeSyncButton.setText(_translate("mainWindow", "Синхронизировать время"))
         self.logButton.setText(_translate("mainWindow", "Посмотреть Логи"))
         self.namesButton.setText(_translate("mainWindow", "Настроить имена"))
+        self.backupButton.setText(_translate("mainWindow", "Востановить файлы на SD карте"))
         self.about.setTitle(_translate("mainWindow", "Справка"))
         self.settings.setTitle(_translate("mainWindow", "Настройки"))
 
@@ -127,3 +134,4 @@ if __name__ == "__main__":
     ui.setupUi(mainWindow)
     mainWindow.show()
     sys.exit(app.exec_())
+

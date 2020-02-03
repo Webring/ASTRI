@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>696</width>
-    <height>300</height>
+    <height>347</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -202,6 +202,27 @@
     </property>
     <property name="text">
      <string>Настроить имена</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="backupButton">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>280</y>
+      <width>411</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>15</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Востановить файлы на SD карте</string>
     </property>
    </widget>
   </widget>
